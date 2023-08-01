@@ -39,7 +39,7 @@ Please cite the paper and star this repo if you use codefixer task of ToT and fi
 ```bibtex
 @misc{weng2023fixer,
       title={Automatic Bug Fixing via Deliberate Problem Solving with Large Language Models}, 
-      author={Guoyang Weng and Artur},
+      author={Guoyang Weng and Artur Andrzejak},
       year={2023}
 }
 ```
