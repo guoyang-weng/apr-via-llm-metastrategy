@@ -1,5 +1,5 @@
 # Code Fixer Task of Tree of Thoughts (ToT)
-codefixer using tree of thoughts
+Automatic Bug Fixing via Deliberate Problem Solving with Large Language Models
 
 ## Requirement
 SAP AI Core as Proxy for Azure OpenAI Services
