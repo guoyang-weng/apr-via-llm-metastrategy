@@ -12,7 +12,7 @@ approach by S. Yao et al., 2023.
 - Official Repo of Tree of Thoughts (ToT). Access it [here](https://github.com/princeton-nlp/tree-of-thought-llm).
 
 ## Installation
-1. Set up your BTP Azure OpenAI API key and store it in the environment variable `AZURE_OPENAI_API_KEY`.
+1. Set up your SAP Business Technology Platform (BTP) Azure OpenAI API key and store it in the environment variable `AZURE_OPENAI_API_KEY`.
 
 ## Getting Started
 The following minimal script will attempt to fix a bug. Please note that the process might be slow as it utilizes GPT-4:
