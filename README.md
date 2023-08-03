@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 This repository contains the implementation and evaluation of an approach 
-for automatic bug fixing by enhancing large language models (here ChatGPT 4.0) with
+for automatic bug fixing by enhancing large language models (here GPT-4) with
 a multistage interactive process inspired by the 
 [Tree-of-Thoughts (ToT)](https://arxiv.org/abs/2305.10601)
 approach by S. Yao et al., 2023.
