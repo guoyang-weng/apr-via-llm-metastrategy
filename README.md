@@ -23,7 +23,7 @@ print(ys[0])
 ```
 
 ## Reproduce Paper Experiments
-You can reproduce the experiments from our paper by running `py scripts/codefixer/bfs.py`.
+You can reproduce the experiments from our paper by running `py scripts/codefixer/bfs.py` which calls `run.py` file. 
 
 ## Citation & Contact
 If you find the Code Fixer Task of Tree of Thoughts useful or interesting, please consider citing our paper and starring this repository. Your support is greatly appreciated!
