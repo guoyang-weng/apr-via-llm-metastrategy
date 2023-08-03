@@ -22,7 +22,7 @@ class CodeFixerTask(Task):
         with open(path) as file:
             self.data = [line.strip() for line in file]       
         self.steps = 2
-        self.stops = ['\n###Fixed code:###\n', None]
+        self.stops = [None, None]
 
     def __len__(self) -> int:
         return len(self.data)
@@ -35,7 +35,7 @@ class CodeFixerTask(Task):
         return data
     
     def test_output(self, idx: int, output: str):
-        output = output.split('\n###Fixed code:###\n')[-1]
+        output = output.split('\nFixed code:\n')[-1]
         prompt = score_prompt + output
         score_outputs = gpt(prompt, n=5, model='gpt-4')
         scores = []
@@ -57,11 +57,15 @@ class CodeFixerTask(Task):
 
     @staticmethod
     def cot_prompt_wrap(x: str, y:str='') -> str:
-        return cot_prompt.format(input=x) + y
+        if y == '':
+            return cot_prompt_step1a.format(input=x)
+        else:
+            return cot_prompt_step2a.format(input1=x, input2=y)
 
     @staticmethod
     def vote_prompt_wrap(x: str, ys: list) -> str:
         prompt = vote_prompt
+        prompt += f'\n{x}\n'
         for i, y in enumerate(ys, 1):
             prompt += f'Choice {i}:\n{y}\n'
         return prompt
@@ -79,22 +83,3 @@ class CodeFixerTask(Task):
             else:
                 print(f'vote no match: {[vote_output]}')
         return vote_results
-
-    @staticmethod
-    def compare_prompt_wrap(x: str, ys: list) -> str:
-        assert len(ys) == 2, 'compare prompt only supports 2 candidates'
-        ys = [y.split('Fixed Python\n')[-1] for y in ys]
-        prompt = compare_prompt + f'Repair 1:\n{ys[0]}\n\nRepair 2:\n{ys[1]}\n'
-        return prompt
-    
-    @staticmethod
-    def compare_output_unwrap(compare_output: str):
-        if 'more effective repair is 1' in compare_output:
-            return 0
-        elif 'more effective repair is 2' in compare_output:
-            return 1
-        elif 'both repairs are similarly effective' in compare_output:
-            return 0.5
-        else:
-            print(f'-----------------compare no match: {[compare_output]}')
-            return -1
