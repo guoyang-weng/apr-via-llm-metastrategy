@@ -1,3 +1,6 @@
+# This file is a modified version of the file run.py from the repository https://github.com/princeton-nlp/tree-of-thought-llm.
+# The original file was created by the authors of the paper "Tree of Thoughts: Deliberate Problem Solving with Large Language Models", arxiv.org/abs/2305.10601
+
 import os
 import json
 import requests
