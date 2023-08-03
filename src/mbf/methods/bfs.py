@@ -1,3 +1,6 @@
+# This file is a modified version of the file /src/tot/methods/bsf.py from the repository https://github.com/princeton-nlp/tree-of-thought-llm.
+# The original file was created by the authors of the paper "Tree of Thoughts: Deliberate Problem Solving with Large Language Models", arxiv.org/abs/2305.10601
+
 import itertools
 import numpy as np
 from functools import partial
