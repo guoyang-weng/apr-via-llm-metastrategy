@@ -1,0 +1,19 @@
+The issue with the code is that it doesn't add the last line to the lines list if it's shorter than the specified column width. This can be fixed by appending the remaining text after the while loop.
+
+Fixed code:
+```python
+def wrap(text, cols):
+    lines = []
+    while len(text) > cols:
+        end = text.rfind(' ', 0, cols + 1)
+        if end == -1:
+            end = cols
+        line, text = text[:end], text[end:]
+        lines.append(line)
+
+    if text:
+        lines.append(text.strip())  # Add remaining text to lines if it's not empty
+
+    return lines
+```
+This solution ensures that the remaining text is added to the lines list, whether or not it's shorter than the specified column width.

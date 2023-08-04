@@ -1,0 +1,19 @@
+The buggy code is not correctly handling the case when the remaining length of the text is less than or equal to the column width. This causes the last part of the text to be discarded, which is not the correct behavior. To fix this bug, we need to add the remaining text to the lines list after the while loop.
+
+Here's the fixed code:
+
+```python
+def wrap(text, cols):
+    lines = []
+    while len(text) > cols:
+        end = text.rfind(' ', 0, cols + 1)
+        if end == -1:
+            end = cols
+        line, text = text[:end], text[end:].lstrip()
+        lines.append(line)
+    if text:
+        lines.append(text)
+    return lines
+```
+
+In the fixed code, we add an if statement after the while loop to append any remaining text to the lines list. This ensures that the last part of the text is not discarded. Additionally, the .lstrip() method is used to remove any leading whitespace from the remaining text each time a line is appended. This ensures that each line in the output starts with a non-whitespace character, which is generally the expected behavior when wrapping text.

@@ -1,0 +1,77 @@
+The bug in the given code is that it does not properly handle parentheses. The code is supposed to pop the left parenthesis from the `ops` stack when it encounters a right parenthesis, but instead it does so only when it encounters any operator with a priority equal to or greater than the current operator. This means that if there is an operator with lower priority inside the parentheses, it will not be evaluated until after the parentheses are closed, which is incorrect.
+
+Here's the fixed code:
+
+```python
+# pylint: disable=redefined-outer-name
+def arithm_expr_parse_verA(line_tokens):
+    """Constructs an arithmetic expression tree
+    :param line_tokens: list of token strings containing the expression
+    :returns: expression tree
+    :complexity: linear
+    """
+    vals = []
+    ops = []
+    for tok in line_tokens + [';']:
+        if tok in PRIORITY:  # tok is an operator
+            while (ops and ops[-1] != '(' and
+                PRIORITY[ops[-1]] >= PRIORITY[tok]):
+                vals.append((vals.pop(), ops.pop(), vals.pop()))
+            if tok == ')':
+                while ops[-1] != '(':
+                    vals.append((vals.pop(), ops.pop(), vals.pop()))
+                ops.pop()    # this is the corresponding '('
+            else:
+                ops.append(tok)
+        elif tok.isdigit():  # tok is an integer
+            vals.append(int(tok))
+        else:                # tok is an identifier
+            vals.append(tok)
+    while ops:
+        vals.append((vals.pop(), ops.pop(), vals.pop()))
+    return vals.pop()
+
+###The following code is context, no change required###
+# def arithm_expr_eval_verA(cell, expr):
+#     """Evaluates a given expression
+#     :param expr: expression
+#     :param cell: dictionary variable name -> expression
+#     :returns: numerical value of expression
+#     :complexity: linear
+#     """
+#     if isinstance(expr, tuple):
+#         (left, operand, right) = expr
+#         lval = arithm_expr_eval_verA(cell, left)
+#         rval = arithm_expr_eval_verA(cell, right)
+#         if operand == '+':
+#             return lval + rval
+#         if operand == '-':
+#             return lval - rval
+#         if operand == '*':
+#             return lval * rval
+#         if operand == '/':
+#             return lval // rval
+#     elif isinstance(expr, int):
+#         return expr
+#     else:
+#         cell[expr] = arithm_expr_eval_verA(cell, cell[expr])
+#         return cell[expr]
+
+# PRIORITY = {';': 0, '(': 1, ')': 2, '-': 3, '+': 3, '*': 4, '/': 4}
+
+###Unit test to be passed, should not be changed###
+# import unittest
+# class TestTryalgo(unittest.TestCase):
+#     def test_arithm_expr_eval_verA(self):
+#         L = [("13 + A47 * ZZ22", 37),
+#              ("( 12 - 2 ) * 5", 50),
+#              ("4 / 7 + 4 / 7", 0),
+#              ("3 * 3 / 7", 1),
+#              ("12", 12)]
+#         for str_expr, val in L:
+#             cell = {"ZZ22": 3, "A47": 8}
+#             expr = arithm_expr_parse_verA(str_expr.split())
+#             self.assertEqual(arithm_expr_eval_verA(cell, expr), val)
+```
+
+In this fix, the code now checks for a left parenthesis in the `ops` stack when it encounters a right parenthesis

@@ -1,0 +1,26 @@
+The code provided seems to be an attempt at the Kahn's algorithm for topological sorting. However, it is incorrectly implemented. The correct algorithm works as follows:
+
+- Create a set of all nodes with no incoming edge (in the current code, this part is correct).
+- While this set is non-empty, remove a node n from it.
+- Insert n into the tail of the output list (in the current code, this part is also correct).
+- For each node m with an edge e from n to m, remove edge e from the graph. If m has no other incoming edges, insert m into the set.
+- Continue until the set is empty.
+
+The provided code is not removing edges and is not updating the set of nodes with no incoming edges correctly. The updated code reflecting the above algorithm is as follows:
+
+```python
+def topological_ordering(nodes):
+    ordered_nodes = [node for node in nodes if not node.incoming_nodes]
+    i = 0
+    while i < len(ordered_nodes):
+        node = ordered_nodes[i]
+        for nextnode in list(node.outgoing_nodes):
+            nextnode.incoming_nodes.remove(node)
+            node.outgoing_nodes.remove(nextnode)
+            if not nextnode.incoming_nodes and nextnode not in ordered_nodes:
+                ordered_nodes.append(nextnode)
+        i += 1
+    return ordered_nodes
+```
+
+In this code, we iterate over a copy of node.outgoing_nodes because we're modifying the list while iterating over it, which can cause issues. The iterator i is used to iterate over ordered_nodes, because the length of ordered_nodes can change during the loop (new nodes can be appended), so a for loop would not work correctly. We increase i manually in each iteration.

@@ -1,0 +1,14 @@
+The bug in the code is that the condition for adding a new node to the ordered_nodes list is incorrect. It checks if the outgoing nodes of the nextnode are a superset of the ordered_nodes, and if the nextnode is not in the ordered_nodes. But what it should do is to check if all the incoming nodes of nextnode are in the ordered_nodes and if the nextnode is not in the ordered_nodes.
+
+Here's how you can fix the code:
+
+    ###Fixed code###
+    def topological_ordering(nodes):
+        ordered_nodes = [node for node in nodes if not node.incoming_nodes]
+        while len(ordered_nodes) != len(nodes):
+            for node in nodes:
+                if set(ordered_nodes).issuperset(node.incoming_nodes) and node not in ordered_nodes:
+                    ordered_nodes.append(node)
+        return ordered_nodes
+
+This code first adds all nodes without incoming nodes to the list. Then, it loops until the length of the ordered_nodes equals the length of all nodes. Inside the loop, it goes through all nodes and checks if all incoming nodes of the current node are in the ordered_nodes. If they are and the current node is not in the ordered_nodes, then it adds the current node to the ordered_nodes.

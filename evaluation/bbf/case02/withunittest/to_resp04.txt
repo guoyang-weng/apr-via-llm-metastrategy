@@ -1,0 +1,27 @@
+The provided topological ordering function is incorrect. The logic to find the topological order of a directed acyclic graph (DAG) is not correctly implemented. A correct implementation would involve using depth-first search (DFS) from each node that has no incoming edges.
+
+Here is the corrected code using the DFS approach:
+
+```python
+###Fixed code###
+def dfs(node, visited, stack):
+    visited.add(node)
+
+    for nextnode in node.outgoing_nodes:
+        if nextnode not in visited:
+            dfs(nextnode, visited, stack)
+    
+    stack.insert(0, node)
+
+def topological_ordering(nodes):
+    visited = set()
+    stack = []
+
+    for node in nodes:
+        if not node.incoming_nodes and node not in visited:
+            dfs(node, visited, stack)
+
+    return stack
+```
+
+In this code, `dfs` is a helper function that performs a depth-first search starting from a specific node. It adds each visited node to the `stack` in a post-order manner, which results in a topological order. The main function `topological_ordering` goes through each node in `nodes`, and if the node has no incoming edges (i.e., it can be a starting point), it starts a DFS from that node. The set `visited` is used to keep track of which nodes have already been visited to avoid visiting them again.
